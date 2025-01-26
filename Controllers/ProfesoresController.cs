@@ -32,7 +32,6 @@ namespace ExamenMVC.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Create(ProfesorModel model)
         {
             if (ModelState.IsValid)
@@ -50,6 +49,22 @@ namespace ExamenMVC.Controllers
             }
             
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Details(int Id)
+        {
+            ProfesorService service = new ProfesorService();
+            var profesor = service.FindId(Id);
+            ProfesorModel model = new ProfesorModel
+            {
+                Id = profesor.Id,
+                Nombre = profesor.Nombre,
+                Apellido = profesor.Apellido,
+                Correo = profesor.Correo,
+                Especialidad = profesor.Especialidad
+            };
+            return View(model);
         }
 
         [HttpGet]
@@ -71,7 +86,7 @@ namespace ExamenMVC.Controllers
         [HttpPost]
         public ActionResult Edit(ProfesorModel profesor)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 ProfesorService service = new ProfesorService();
                 var dominio = new Profesor
@@ -106,10 +121,10 @@ namespace ExamenMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(ProfesorModel _profesor)
+        public ActionResult Delete(ProfesorModel profesor)
         {
             ProfesorService service = new ProfesorService();
-            service.Delete(_profesor.Id);
+            service.Delete(profesor.Id);
             return RedirectToAction("Index");
         }
 
