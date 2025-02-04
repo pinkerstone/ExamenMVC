@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "IndexAjax";
+}
+
+<h1>IndexAjax</h1>
+
+<h2>Lista de Profesores</h2>
+<br />
+<input type="text" id="txtFilter" value="" /><button id="listarProfesores" class="btn btn-primary">Listar Profesores</button>
+<button id="limpiarListaProfesores" class="btn btn-primary">Limpiar Profesores</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Especialidad</th>
+            <th>Correo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Aquí se llenará la tabla con los estudiantes -->
+    </tbody>
+</table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function()
+    {
+        $('#limpiarListaProfesores').click(function()
+        {
+            var tableBody = $('table tbody');
+            tableBody.empty();
+        });
+
+        $('#listarProfesores').click(function()
+        {
+            console.log('estoy en el click');
+
+            $.ajax({
+                type: "GET",
+                // url: "/Profesores/GetAjax",
+                url: "/Profesores/GetFilter?_filter=" + $('#txtFilter').val(),
+                success: function (result)
+                {
+                    console.log('estoy en el ajax');
+                    var tableBody = $('table tbody');
+                    tableBody.empty();
+
+                    result.forEach(function (profesor)
+                    {
+                        var newRow = `
+                                     <tr>
+                                        <td>${profesor.id}</td>
+                                        <td>${profesor.nombre}</td>
+                                        <td>${profesor.apellido}</td>
+                                        <td>${profesor.especialidad}</td>
+                                        <td>${profesor.correo}</td>
+                                     </tr>`;
+                        tableBody.append(newRow);
+                    });
+                },
+                error: function()
+                {
+                    alert('Hubo un error al listar los profesores');
+                }
+            });
+        });          
+
+    });
+
+</script>

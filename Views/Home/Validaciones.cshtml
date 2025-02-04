@@ -1,0 +1,87 @@
+﻿﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase Básica de jQuery</title>
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+@* 	<a href="~/lib/jquery/dist/jquery.min.map">~/lib/jquery/dist/jquery.min.map</a> *@
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.js"></script>
+    <style>
+        .error
+        {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hola mundo!</h1>
+    <input type="text" id="mensaje" value="" />
+    <button id="mostrar">Mostrar mensaje</button>
+    <br />
+    <h2>Fomulario de contacto</h2>
+ 
+    <form id="contactForm">
+		<label>Nombres:</label><br>
+        <input type="text" id="nombres" value="" /><br>
+        <span class="error" id="nameError"></span><br>
+
+        <label>Correo electronico:</label><br>
+        <input type="text" id="correo" value="" /><br>
+        <span class="error" id="emailError"></span><br>
+
+		<button id="submit">Enviar</button>
+    </form>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        // alert('prueba');
+        $('#contactForm').submit(function (event)
+        {
+            event.preventDefault();
+            // alert('Despues de validar');
+            var name = $('#nombres').val().trim();
+            if (name == '')
+            {
+                $('#nameError').text('El nombre es obligatorio');
+            }
+            else
+            {
+                $('#nameError').text('');
+            }
+
+            var name = $('#correo').val().trim();
+            if (name == '')
+            {
+                $('#emailError').text('El correo es obligatorio');
+            }
+            else
+            {
+                $('#emailError').text('');
+            }
+        });    
+        
+        $('#mostrar').click(function()
+        {
+            var mensaje = $('#mensaje').val();
+            if(mensaje == '')
+            {
+                alert('Por favor ingresa el mensaje');
+            }
+            else
+            {
+                alert(mensaje);
+            }
+        });
+    });
+</script>

@@ -26,6 +26,51 @@ namespace ExamenMVC.Controllers
             return View(model);
         }
 
+        public IActionResult IndexAjax()
+        {
+            return View();
+        }
+        
+        public IActionResult GetAjax()
+        {
+
+            ProfesorService service = new ProfesorService();
+
+            var profesores = service.Get();
+
+            var model = profesores.Select(x => new ProfesorModel
+            {
+                Id = x.Id,
+                Nombre = x.Nombre,
+                Apellido = x.Apellido,
+                Correo = x.Correo,
+                Especialidad = x.Especialidad
+            }).ToList();
+
+            return Json(model);
+        }
+
+        public IActionResult GetFilter(string _filter)
+        {
+
+            ProfesorService service = new ProfesorService();
+
+            var profesores = service.GetFilter(_filter);
+
+            var model = profesores.Select(x => new ProfesorModel
+            {
+                Id = x.Id,
+                Nombre = x.Nombre,
+                Apellido = x.Apellido,
+                Correo = x.Correo,
+                Especialidad = x.Especialidad
+            }).ToList();
+
+            return Json(model);
+        }
+
+
+
         public IActionResult Create()
         {
             return View();
@@ -52,7 +97,7 @@ namespace ExamenMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(int Id)
+        public IActionResult Details(int Id)
         {
             ProfesorService service = new ProfesorService();
             var profesor = service.FindId(Id);
